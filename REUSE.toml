@@ -1,0 +1,18 @@
+# Licensing information for the whole tree, in the REUSE format (https://reuse.software/spec-3.3/).
+# It stands in for a header in every file. A file with its own SPDX header keeps it, because the
+# precedence of the first paragraph is "aggregate": both apply. Where more than one paragraph
+# matches a file, the last one wins. The text of every licence named here is in LICENSES/, and
+# CI's reuse job checks that this stays true.
+version = 1
+
+[[annotations]]
+path = "**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Nikola Živković PR Agencija za programerske usluge Novi Sad"
+SPDX-License-Identifier = "Apache-2.0"
+
+# Third-party text kept as published, under its own licence and copyright.
+[[annotations]]
+path = "CODE_OF_CONDUCT.md"
+SPDX-FileCopyrightText = "Coraline Ada Ehmke and the Contributor Covenant contributors"
+SPDX-License-Identifier = "CC-BY-4.0"

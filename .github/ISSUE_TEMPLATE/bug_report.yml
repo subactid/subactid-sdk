@@ -1,0 +1,63 @@
+name: Bug report
+description: Something in @subactid/client, @subactid/server or @subactid/mcp does not work as documented.
+title: 'bug: '
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A security problem is not a bug report: report it privately instead, as described in
+        SECURITY.md. Never paste a token, task grant, subject token or private key here, not even
+        an expired one.
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      options:
+        - '@subactid/client'
+        - '@subactid/server'
+        - '@subactid/mcp'
+        - An example
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      description: From `npm ls @subactid/client @subactid/server @subactid/mcp`, or the commit if you built from source.
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: node
+    attributes:
+      label: Node version
+      description: From `node --version`.
+      placeholder: v22.12.0
+    validations:
+      required: true
+  - type: input
+    id: framework
+    attributes:
+      label: Framework and version
+      description: Express, Fastify or the MCP SDK, if the bug involves one.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Include the error class and its `code` or refusal reason, with secrets removed.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How to reproduce
+      description: The smallest code that shows it. Replace real hosts, tokens and keys with placeholders.
+      render: ts

@@ -1,0 +1,68 @@
+name: dco
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  sign-off:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Read from the API rather than from a checkout: the API says which GitHub account each
+      # commit belongs to and whether GitHub verified its signature, which git metadata cannot.
+      - name: Check every commit in the PR is signed off
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          commits=$(gh api "repos/${REPO}/pulls/${PR}/commits?per_page=100" --paginate \
+            --jq '.[] | @base64')
+
+          # The API lists at most 250 commits. A pull request that may have more is refused rather
+          # than checked in part.
+          count=$(printf '%s\n' "$commits" | grep -c . || true)
+          if [ "$count" -ge 250 ]; then
+            echo "::error::the pull request has ${count} or more commits, more than can be checked; squash some"
+            exit 1
+          fi
+          if [ "$count" -eq 0 ]; then
+            echo "::error::no commits could be listed for the pull request"
+            exit 1
+          fi
+
+          missing=0
+          for c in $commits; do
+            field() { printf '%s' "$c" | base64 -d | jq -r "$1"; }
+            sha=$(field '.sha')
+            type=$(field '.author.type // ""')
+            login=$(field '.author.login // ""')
+            verified=$(field '.commit.verification.verified // false')
+            email=$(field '.commit.author.email // ""')
+
+            # Dependabot and GitHub Actions cannot sign off. A commit is taken as theirs only when
+            # GitHub ties it to the bot account and verified its signature: an author name or
+            # email alone can be set by anyone.
+            if [ "$type" = Bot ] && [ "$verified" = true ] \
+              && { [ "$login" = 'dependabot[bot]' ] || [ "$login" = 'github-actions[bot]' ]; }; then
+              echo "skipping ${login} commit ${sha}"
+              continue
+            fi
+
+            signoffs=$(field '.commit.message' | tr -d '\r' \
+              | sed -n -E 's/^Signed-off-by: .+ <([^<>[:space:]]+@[^<>[:space:]]+)>[[:space:]]*$/\1/p')
+            if [ -z "$signoffs" ]; then
+              echo "::error::commit ${sha} is missing a Signed-off-by trailer (use git commit -s)"
+              missing=1
+            elif [ -z "$email" ] || ! printf '%s\n' "$signoffs" | grep -qixF -- "$email"; then
+              echo "::error::commit ${sha} is not signed off by its author (${email}); the Signed-off-by email must match the commit author's"
+              missing=1
+            fi
+          done
+          exit "$missing"

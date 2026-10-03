@@ -1,0 +1,27 @@
+version: 2
+# Every ecosystem's version updates arrive together as one pull request a week, and only once a
+# release has been out for a week: a hijacked release is usually caught and pulled within days.
+# Security updates are separate: they are neither grouped nor held back.
+multi-ecosystem-groups:
+  dependencies:
+    schedule: { interval: weekly }
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    multi-ecosystem-group: dependencies
+    patterns: ['*']
+    cooldown: { default-days: 7 }
+    ignore:
+      # @types/node tracks the oldest Node in `engines`, not the newest Node there is.
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
+  - package-ecosystem: github-actions
+    directory: '/'
+    multi-ecosystem-group: dependencies
+    patterns: ['*']
+    cooldown: { default-days: 7 }
+  - package-ecosystem: docker
+    directory: '/.github/tools'
+    multi-ecosystem-group: dependencies
+    patterns: ['*']
+    cooldown: { default-days: 7 }

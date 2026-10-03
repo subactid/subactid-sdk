@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/subactid/subactid-sdk/security/advisories/new
+    about: Report it privately, never in a public issue. See SECURITY.md for the policy.
+  - name: Security policy
+    url: https://github.com/subactid/subactid-sdk/blob/main/SECURITY.md
+    about: What is in scope, what to include, and when to expect an answer.
+  - name: Documentation
+    url: https://subactid.com/docs
+    about: How Subact ID and the SDKs work.

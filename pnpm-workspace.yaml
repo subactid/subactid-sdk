@@ -1,0 +1,9 @@
+packages:
+  - packages/*
+  - examples/*
+
+# No dependency runs an install script. pnpm 10 skips them by default and asks about each one it
+# skipped; naming the one that asks, esbuild (pulled in through tsx and vitest), records the
+# decision so a change to pnpm's default cannot turn it on. esbuild runs without its script.
+ignoredBuiltDependencies:
+  - esbuild

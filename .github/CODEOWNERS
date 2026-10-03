@@ -1,0 +1,15 @@
+# Every change needs a review from the maintainer. The later lines repeat the owner on purpose:
+# they are the paths that decide what is published and under what terms, and they stay owned
+# even if the default above is ever narrowed.
+*                               @NikolaZivkovic41
+
+/.github/                       @NikolaZivkovic41
+/.github/workflows/release.yml  @NikolaZivkovic41
+/LICENSE                        @NikolaZivkovic41
+/NOTICE                         @NikolaZivkovic41
+/packages/*/package.json        @NikolaZivkovic41
+/TRADEMARKS.md                  @NikolaZivkovic41
+/REUSE.toml                     @NikolaZivkovic41
+/LICENSES/                      @NikolaZivkovic41
+/.gitleaks.toml                 @NikolaZivkovic41
+/.github/tools/                 @NikolaZivkovic41

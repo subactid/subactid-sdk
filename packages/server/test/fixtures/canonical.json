@@ -1,0 +1,440 @@
+{
+  "note": "Produced by SubactId.Core.Audit (AuditHash.CanonicalJson, MerkleTree.Leaf). Do not hand-edit.",
+  "vectors": [
+    {
+      "about": "seq 1, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:27.447Z",
+        "event": "agent.registered",
+        "task_id": null,
+        "agent_id": "jira-triage",
+        "sponsor": null,
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "allow",
+        "reason": null
+      },
+      "canonical_json": "{\"agent_id\":\"jira-triage\",\"audience\":null,\"decision\":\"allow\",\"delegation_depth\":null,\"event\":\"agent.registered\",\"jti\":null,\"reason\":null,\"scope\":null,\"sponsor\":null,\"task_id\":null,\"ts\":\"2026-09-21T10:47:27.447Z\"}",
+      "leaf": "2b59107de50ce22b93137ec9817d0d53a422aed1f0059e739f7121ca579eb453"
+    },
+    {
+      "about": "seq 2, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:27.688Z",
+        "event": "token.issued",
+        "task_id": "task_01M31S7W68TMK7WDX8YKPSYTES",
+        "agent_id": "jira-triage",
+        "sponsor": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "audience": "https://jira.internal",
+        "scope": "jira:read jira:comment",
+        "jti": "tok_01M31S7W68VC3TRBZV9CCQAZGW",
+        "delegation_depth": 1,
+        "decision": "allow",
+        "reason": null
+      },
+      "canonical_json": "{\"agent_id\":\"jira-triage\",\"audience\":\"https://jira.internal\",\"decision\":\"allow\",\"delegation_depth\":1,\"event\":\"token.issued\",\"jti\":\"tok_01M31S7W68VC3TRBZV9CCQAZGW\",\"reason\":null,\"scope\":\"jira:read jira:comment\",\"sponsor\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"task_id\":\"task_01M31S7W68TMK7WDX8YKPSYTES\",\"ts\":\"2026-09-21T10:47:27.688Z\"}",
+      "leaf": "3ec1c99ee276c62843933b1e695e96415599a8408052082afb5a712cc19c36aa"
+    },
+    {
+      "about": "seq 3, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:27.845Z",
+        "event": "token.issued",
+        "task_id": "task_01M31S7WB5R3RHQWQF59MJKAQR",
+        "agent_id": "jira-triage",
+        "sponsor": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "audience": "https://jira.internal/q?a=1&b=2+3<x>'y`z",
+        "scope": "jira:read",
+        "jti": "tok_01M31S7WB51M1NEY4A5R71XXAE",
+        "delegation_depth": 1,
+        "decision": "allow",
+        "reason": null
+      },
+      "canonical_json": "{\"agent_id\":\"jira-triage\",\"audience\":\"https://jira.internal/q?a=1\\u0026b=2\\u002B3\\u003Cx\\u003E\\u0027y\\u0060z\",\"decision\":\"allow\",\"delegation_depth\":1,\"event\":\"token.issued\",\"jti\":\"tok_01M31S7WB51M1NEY4A5R71XXAE\",\"reason\":null,\"scope\":\"jira:read\",\"sponsor\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"task_id\":\"task_01M31S7WB5R3RHQWQF59MJKAQR\",\"ts\":\"2026-09-21T10:47:27.845Z\"}",
+      "leaf": "d69abf91b907c8655a1a3a7caf14fe60cb02e30d2e183d19fc52c64c9685001f"
+    },
+    {
+      "about": "seq 4, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:27.864Z",
+        "event": "token.issued",
+        "task_id": "task_01M31S7WBR5Q2W4J0TY8ZYBHEA",
+        "agent_id": "jira-triage",
+        "sponsor": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "audience": "https://café.internal/rapports/😀",
+        "scope": "rapport:lecture",
+        "jti": "tok_01M31S7WBR0XCE0DZ9YHAV9RW5",
+        "delegation_depth": 1,
+        "decision": "allow",
+        "reason": null
+      },
+      "canonical_json": "{\"agent_id\":\"jira-triage\",\"audience\":\"https://caf\\u00E9.internal/rapports/\\uD83D\\uDE00\",\"decision\":\"allow\",\"delegation_depth\":1,\"event\":\"token.issued\",\"jti\":\"tok_01M31S7WBR0XCE0DZ9YHAV9RW5\",\"reason\":null,\"scope\":\"rapport:lecture\",\"sponsor\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"task_id\":\"task_01M31S7WBR5Q2W4J0TY8ZYBHEA\",\"ts\":\"2026-09-21T10:47:27.864Z\"}",
+      "leaf": "a5eb9d3475cdbce516acd49cfa1df9c5f31649c2707262dbe48bf959a547bbe0"
+    },
+    {
+      "about": "seq 5, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:27.875Z",
+        "event": "token.denied",
+        "task_id": null,
+        "agent_id": "jira-triage",
+        "sponsor": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "audience": "https://not.allowed.internal",
+        "scope": "jira:read",
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "deny",
+        "reason": "audience_not_allowed"
+      },
+      "canonical_json": "{\"agent_id\":\"jira-triage\",\"audience\":\"https://not.allowed.internal\",\"decision\":\"deny\",\"delegation_depth\":null,\"event\":\"token.denied\",\"jti\":null,\"reason\":\"audience_not_allowed\",\"scope\":\"jira:read\",\"sponsor\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"task_id\":null,\"ts\":\"2026-09-21T10:47:27.875Z\"}",
+      "leaf": "f2df9e3205b514db379a4c7452bdfe04435b2b2caed84b1212cd2d5880ee4597"
+    },
+    {
+      "about": "seq 6, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:27.885Z",
+        "event": "token.denied",
+        "task_id": null,
+        "agent_id": "jira-triage",
+        "sponsor": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "audience": "https://jira.internal",
+        "scope": "jira:comment",
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "deny",
+        "reason": "scope_intersection_empty"
+      },
+      "canonical_json": "{\"agent_id\":\"jira-triage\",\"audience\":\"https://jira.internal\",\"decision\":\"deny\",\"delegation_depth\":null,\"event\":\"token.denied\",\"jti\":null,\"reason\":\"scope_intersection_empty\",\"scope\":\"jira:comment\",\"sponsor\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"task_id\":null,\"ts\":\"2026-09-21T10:47:27.885Z\"}",
+      "leaf": "ede42e093393bde47d1032ae1c959f2b9448a2ab179aeee538cad931919b476f"
+    },
+    {
+      "about": "seq 7, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:30.898Z",
+        "event": "sponsor.blocked",
+        "task_id": null,
+        "agent_id": null,
+        "sponsor": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "allow",
+        "reason": "sponsor_blocked"
+      },
+      "canonical_json": "{\"agent_id\":null,\"audience\":null,\"decision\":\"allow\",\"delegation_depth\":null,\"event\":\"sponsor.blocked\",\"jti\":null,\"reason\":\"sponsor_blocked\",\"scope\":null,\"sponsor\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"task_id\":null,\"ts\":\"2026-09-21T10:47:30.898Z\"}",
+      "leaf": "a14a8878bef95eaadc2c524486ff922775feed7d52c2045d78df6afe5996c2fa"
+    },
+    {
+      "about": "seq 8, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:30.898Z",
+        "event": "task.revoked",
+        "task_id": "task_01M31S7W68TMK7WDX8YKPSYTES",
+        "agent_id": "jira-triage",
+        "sponsor": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "audience": "https://jira.internal",
+        "scope": "jira:read jira:comment",
+        "jti": null,
+        "delegation_depth": 1,
+        "decision": null,
+        "reason": "sponsor_blocked"
+      },
+      "canonical_json": "{\"agent_id\":\"jira-triage\",\"audience\":\"https://jira.internal\",\"decision\":null,\"delegation_depth\":1,\"event\":\"task.revoked\",\"jti\":null,\"reason\":\"sponsor_blocked\",\"scope\":\"jira:read jira:comment\",\"sponsor\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"task_id\":\"task_01M31S7W68TMK7WDX8YKPSYTES\",\"ts\":\"2026-09-21T10:47:30.898Z\"}",
+      "leaf": "f2eb82416db81bf77aa8bcd9de9359f8b0ecd8867c05ef5ffba91fa0894d0696"
+    },
+    {
+      "about": "seq 9, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:30.898Z",
+        "event": "task.revoked",
+        "task_id": "task_01M31S7WB5R3RHQWQF59MJKAQR",
+        "agent_id": "jira-triage",
+        "sponsor": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "audience": "https://jira.internal/q?a=1&b=2+3<x>'y`z",
+        "scope": "jira:read",
+        "jti": null,
+        "delegation_depth": 1,
+        "decision": null,
+        "reason": "sponsor_blocked"
+      },
+      "canonical_json": "{\"agent_id\":\"jira-triage\",\"audience\":\"https://jira.internal/q?a=1\\u0026b=2\\u002B3\\u003Cx\\u003E\\u0027y\\u0060z\",\"decision\":null,\"delegation_depth\":1,\"event\":\"task.revoked\",\"jti\":null,\"reason\":\"sponsor_blocked\",\"scope\":\"jira:read\",\"sponsor\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"task_id\":\"task_01M31S7WB5R3RHQWQF59MJKAQR\",\"ts\":\"2026-09-21T10:47:30.898Z\"}",
+      "leaf": "3fef951689605fb76962dd445e0d41b889ff56911a900206d5a332b8695ccfee"
+    },
+    {
+      "about": "seq 10, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:30.898Z",
+        "event": "task.revoked",
+        "task_id": "task_01M31S7WBR5Q2W4J0TY8ZYBHEA",
+        "agent_id": "jira-triage",
+        "sponsor": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "audience": "https://café.internal/rapports/😀",
+        "scope": "rapport:lecture",
+        "jti": null,
+        "delegation_depth": 1,
+        "decision": null,
+        "reason": "sponsor_blocked"
+      },
+      "canonical_json": "{\"agent_id\":\"jira-triage\",\"audience\":\"https://caf\\u00E9.internal/rapports/\\uD83D\\uDE00\",\"decision\":null,\"delegation_depth\":1,\"event\":\"task.revoked\",\"jti\":null,\"reason\":\"sponsor_blocked\",\"scope\":\"rapport:lecture\",\"sponsor\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"task_id\":\"task_01M31S7WBR5Q2W4J0TY8ZYBHEA\",\"ts\":\"2026-09-21T10:47:30.898Z\"}",
+      "leaf": "e97cd2ac502d06c50ba3f95ff3cc462e21fbe136889c7296440d7436b051c0a1"
+    },
+    {
+      "about": "seq 11, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:31.095Z",
+        "event": "agent.updated",
+        "task_id": null,
+        "agent_id": "jira-triage",
+        "sponsor": null,
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "allow",
+        "reason": "changed:display_name"
+      },
+      "canonical_json": "{\"agent_id\":\"jira-triage\",\"audience\":null,\"decision\":\"allow\",\"delegation_depth\":null,\"event\":\"agent.updated\",\"jti\":null,\"reason\":\"changed:display_name\",\"scope\":null,\"sponsor\":null,\"task_id\":null,\"ts\":\"2026-09-21T10:47:31.095Z\"}",
+      "leaf": "0dc707085eefef2985f411c170996f7943ca678e5e92b88c3547f51d9a81202e"
+    },
+    {
+      "about": "seq 12, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:34.105Z",
+        "event": "token.denied",
+        "task_id": null,
+        "agent_id": null,
+        "sponsor": null,
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "deny",
+        "reason": "invalid_request"
+      },
+      "canonical_json": "{\"agent_id\":null,\"audience\":null,\"decision\":\"deny\",\"delegation_depth\":null,\"event\":\"token.denied\",\"jti\":null,\"reason\":\"invalid_request\",\"scope\":null,\"sponsor\":null,\"task_id\":null,\"ts\":\"2026-09-21T10:47:34.105Z\"}",
+      "leaf": "179301ae300bef3f962032f2e116eb2952902b33715330c0c0d56f11814d6b07"
+    },
+    {
+      "about": "seq 13, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:37.775Z",
+        "event": "token.denied",
+        "task_id": null,
+        "agent_id": null,
+        "sponsor": null,
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "deny",
+        "reason": "invalid_request",
+        "count": 4
+      },
+      "canonical_json": "{\"agent_id\":null,\"audience\":null,\"count\":4,\"decision\":\"deny\",\"delegation_depth\":null,\"event\":\"token.denied\",\"jti\":null,\"reason\":\"invalid_request\",\"scope\":null,\"sponsor\":null,\"task_id\":null,\"ts\":\"2026-09-21T10:47:37.775Z\"}",
+      "leaf": "315a430a62715d2dd3152b5dab6b9fbfb42e615598f09474912f20701702b87c"
+    },
+    {
+      "about": "seq 14, as the instance published it",
+      "record": {
+        "ts": "2026-09-21T10:47:42.133Z",
+        "event": "sponsor.unblocked",
+        "task_id": null,
+        "agent_id": null,
+        "sponsor": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "allow",
+        "reason": "operator_unblocked"
+      },
+      "canonical_json": "{\"agent_id\":null,\"audience\":null,\"decision\":\"allow\",\"delegation_depth\":null,\"event\":\"sponsor.unblocked\",\"jti\":null,\"reason\":\"operator_unblocked\",\"scope\":null,\"sponsor\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"task_id\":null,\"ts\":\"2026-09-21T10:47:42.133Z\"}",
+      "leaf": "9501a2597e33a36b1f87c4d2d746f2c21c94acc701a489ece51fed51df42a23c"
+    },
+    {
+      "about": "the record printed in spec section 7",
+      "record": {
+        "ts": "2026-09-09T14:03:41.882Z",
+        "event": "token.issued",
+        "task_id": "task_01HQZX9K4M",
+        "agent_id": "jira-triage",
+        "sponsor": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "audience": "https://jira.internal",
+        "scope": "jira:read jira:comment",
+        "jti": "tok_01HQZX9K5P",
+        "delegation_depth": 1,
+        "decision": "allow",
+        "reason": null
+      },
+      "canonical_json": "{\"agent_id\":\"jira-triage\",\"audience\":\"https://jira.internal\",\"decision\":\"allow\",\"delegation_depth\":1,\"event\":\"token.issued\",\"jti\":\"tok_01HQZX9K5P\",\"reason\":null,\"scope\":\"jira:read jira:comment\",\"sponsor\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"task_id\":\"task_01HQZX9K4M\",\"ts\":\"2026-09-09T14:03:41.882Z\"}",
+      "leaf": "cd96d4bca8bdf84912cbe3360df7ca0e9a6433bda78772917efe409c7f8b16e6"
+    },
+    {
+      "about": "every optional field null",
+      "record": {
+        "ts": "2026-01-01T00:00:00.000Z",
+        "event": "token.denied",
+        "task_id": null,
+        "agent_id": null,
+        "sponsor": null,
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": null,
+        "reason": null
+      },
+      "canonical_json": "{\"agent_id\":null,\"audience\":null,\"decision\":null,\"delegation_depth\":null,\"event\":\"token.denied\",\"jti\":null,\"reason\":null,\"scope\":null,\"sponsor\":null,\"task_id\":null,\"ts\":\"2026-01-01T00:00:00.000Z\"}",
+      "leaf": "e170a8023bd66ac7a979a0eef62eab497f62f24e68c72063f10f3e45cca9f50b"
+    },
+    {
+      "about": "a summary record, which is the only kind carrying a count",
+      "record": {
+        "ts": "2026-09-09T14:03:41.882Z",
+        "event": "token.denied",
+        "task_id": null,
+        "agent_id": null,
+        "sponsor": null,
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "deny",
+        "reason": "actor_unknown_agent",
+        "count": 4812
+      },
+      "canonical_json": "{\"agent_id\":null,\"audience\":null,\"count\":4812,\"decision\":\"deny\",\"delegation_depth\":null,\"event\":\"token.denied\",\"jti\":null,\"reason\":\"actor_unknown_agent\",\"scope\":null,\"sponsor\":null,\"task_id\":null,\"ts\":\"2026-09-09T14:03:41.882Z\"}",
+      "leaf": "3c0d4c40604ce7bdcdc5fda6cdeccc7af55d47516408a1d416c6454c34bece3f"
+    },
+    {
+      "about": "an archive record, which is the only kind carrying a detail",
+      "record": {
+        "ts": "2026-09-09T14:03:41.882Z",
+        "event": "audit.archived",
+        "task_id": null,
+        "agent_id": null,
+        "sponsor": null,
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": null,
+        "reason": null,
+        "detail": "audit_events_p202607 checkpoints 1-1440 sha256:9c1f"
+      },
+      "canonical_json": "{\"agent_id\":null,\"audience\":null,\"decision\":null,\"delegation_depth\":null,\"detail\":\"audit_events_p202607 checkpoints 1-1440 sha256:9c1f\",\"event\":\"audit.archived\",\"jti\":null,\"reason\":null,\"scope\":null,\"sponsor\":null,\"task_id\":null,\"ts\":\"2026-09-09T14:03:41.882Z\"}",
+      "leaf": "66dc9ec3009e975c502d77353c2b19318e83b27a8660e4c0f494e863a06f792e"
+    },
+    {
+      "about": "the characters spec section 7 names as escaped, in a field that can hold them",
+      "record": {
+        "ts": "2026-09-09T14:03:41.882Z",
+        "event": "token.denied",
+        "task_id": null,
+        "agent_id": null,
+        "sponsor": null,
+        "audience": "https://jira.internal/q?a=1&b=2+3<x>'y`z",
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "deny",
+        "reason": "\" \\ / & ' + < > ` "
+      },
+      "canonical_json": "{\"agent_id\":null,\"audience\":\"https://jira.internal/q?a=1\\u0026b=2\\u002B3\\u003Cx\\u003E\\u0027y\\u0060z\",\"decision\":\"deny\",\"delegation_depth\":null,\"event\":\"token.denied\",\"jti\":null,\"reason\":\"\\u0022 \\\\ / \\u0026 \\u0027 \\u002B \\u003C \\u003E \\u0060 \",\"scope\":null,\"sponsor\":null,\"task_id\":null,\"ts\":\"2026-09-09T14:03:41.882Z\"}",
+      "leaf": "5d92fa91540d03d15202273b5acf33fee9747c5643c8845a85a1f5592b276beb"
+    },
+    {
+      "about": "the control characters with a short escape, and two without",
+      "record": {
+        "ts": "2026-09-09T14:03:41.882Z",
+        "event": "token.denied",
+        "task_id": null,
+        "agent_id": null,
+        "sponsor": null,
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "deny",
+        "reason": "\b\t\n\f\r\u0000\u001f"
+      },
+      "canonical_json": "{\"agent_id\":null,\"audience\":null,\"decision\":\"deny\",\"delegation_depth\":null,\"event\":\"token.denied\",\"jti\":null,\"reason\":\"\\b\\t\\n\\f\\r\\u0000\\u001F\\u007F\",\"scope\":null,\"sponsor\":null,\"task_id\":null,\"ts\":\"2026-09-09T14:03:41.882Z\"}",
+      "leaf": "f406864a8d541fe01469f9a5702a35311d3f1fc763ae93da8adf9790bcf1cd15"
+    },
+    {
+      "about": "characters outside printable ASCII, including one above the basic plane",
+      "record": {
+        "ts": "2026-09-09T14:03:41.882Z",
+        "event": "token.issued",
+        "task_id": null,
+        "agent_id": "rapport-café",
+        "sponsor": null,
+        "audience": "https://café.internal/rapports/😀",
+        "scope": "rapport:lecture été 中文 א  ",
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "allow",
+        "reason": null
+      },
+      "canonical_json": "{\"agent_id\":\"rapport-caf\\u00E9\",\"audience\":\"https://caf\\u00E9.internal/rapports/\\uD83D\\uDE00\",\"decision\":\"allow\",\"delegation_depth\":null,\"event\":\"token.issued\",\"jti\":null,\"reason\":null,\"scope\":\"rapport:lecture \\u00E9t\\u00E9 \\u4E2D\\u6587 \\u05D0 \\u00A0\",\"sponsor\":null,\"task_id\":null,\"ts\":\"2026-09-09T14:03:41.882Z\"}",
+      "leaf": "cb60ebc3a3048be25dee061079779902394a5e3d3ea8e2945562e986a2248ab6"
+    },
+    {
+      "about": "the printable ASCII that is not escaped, so an over-eager encoder is caught too",
+      "record": {
+        "ts": "2026-09-09T14:03:41.882Z",
+        "event": "token.denied",
+        "task_id": null,
+        "agent_id": null,
+        "sponsor": null,
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": "deny",
+        "reason": " !#$%()*,-./0123456789:;=?@ABCZ[]^_abcz{|}~"
+      },
+      "canonical_json": "{\"agent_id\":null,\"audience\":null,\"decision\":\"deny\",\"delegation_depth\":null,\"event\":\"token.denied\",\"jti\":null,\"reason\":\" !#$%()*,-./0123456789:;=?@ABCZ[]^_abcz{|}~\",\"scope\":null,\"sponsor\":null,\"task_id\":null,\"ts\":\"2026-09-09T14:03:41.882Z\"}",
+      "leaf": "206129cc344c50b01a8cf30420fbabe502b26c3aaae8334ac271d9d3288493a7"
+    },
+    {
+      "about": "a timestamp whose millisecond would lose a digit to a trimming writer",
+      "record": {
+        "ts": "2026-09-09T14:03:41.330Z",
+        "event": "task.expired",
+        "task_id": "task_01HQZX9K4M",
+        "agent_id": null,
+        "sponsor": null,
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": null,
+        "reason": null
+      },
+      "canonical_json": "{\"agent_id\":null,\"audience\":null,\"decision\":null,\"delegation_depth\":null,\"event\":\"task.expired\",\"jti\":null,\"reason\":null,\"scope\":null,\"sponsor\":null,\"task_id\":\"task_01HQZX9K4M\",\"ts\":\"2026-09-09T14:03:41.330Z\"}",
+      "leaf": "96b1595b57929531dd0b6383c7ffca71fea1699a71e75a2442c38680740c5819"
+    },
+    {
+      "about": "a timestamp at the second, written with three fractional digits all the same",
+      "record": {
+        "ts": "2026-12-31T23:59:59.000Z",
+        "event": "task.revoked",
+        "task_id": "task_01HQZX9K4M",
+        "agent_id": null,
+        "sponsor": null,
+        "audience": null,
+        "scope": null,
+        "jti": null,
+        "delegation_depth": null,
+        "decision": null,
+        "reason": "sponsor_blocked"
+      },
+      "canonical_json": "{\"agent_id\":null,\"audience\":null,\"decision\":null,\"delegation_depth\":null,\"event\":\"task.revoked\",\"jti\":null,\"reason\":\"sponsor_blocked\",\"scope\":null,\"sponsor\":null,\"task_id\":\"task_01HQZX9K4M\",\"ts\":\"2026-12-31T23:59:59.000Z\"}",
+      "leaf": "c9f6ed457c20b1c5d910e78642b1adf4df4cfb8d9708c5f1ae38954929a55bb8"
+    }
+  ]
+}

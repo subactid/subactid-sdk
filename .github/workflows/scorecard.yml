@@ -1,0 +1,35 @@
+name: scorecard
+on:
+  # A change to branch protection is part of what is scored.
+  branch_protection_rule:
+  schedule:
+    - cron: '41 6 * * 3'
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  analysis:
+    # Results are published for the public repository only. A fork has nothing to publish.
+    if: github.repository == 'subactid/subactid-sdk'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read # workflow runs, for the token-permissions and pinned-dependencies checks
+      security-events: write # the report
+      id-token: write # to publish the results
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ossf/scorecard-action@2d1146689b8cda280b9bc96326124645441f03bc # v2.4.4
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          publish_results: true
+      - uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
+        with:
+          sarif_file: results.sarif

@@ -1,0 +1,5 @@
+# Secret scanning, run by the gitleaks job in .github/workflows/ci.yml. The default rules apply
+# and nothing is allowed: the tree holds no text that looks like a key and is not, because the
+# tests generate their keys at runtime. A finding here is a leak, not a false positive to list.
+[extend]
+useDefault = true

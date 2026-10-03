@@ -1,0 +1,29 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+# The release copies the licence and the NOTICE beside each package so they travel in the
+# tarball. One copy of each is committed, at the root, and the copies are never part of a diff.
+packages/*/LICENSE
+packages/*/NOTICE
+
+# Local configuration, the credential grant files examples/agent writes, the agent key the README
+# has you generate there, and the registration it prints. Never committed.
+.env
+.env.*
+!.env.example
+grants/
+*.pem
+*.key
+*.pfx
+examples/agent/agent.json
+
+# Packed tarballs, coverage output and logs. A local .npmrc usually holds an _authToken.
+*.tgz
+coverage/
+*.log
+.npmrc
+
+# Agent instructions and session files stay local. They are not part of the public tree.
+CLAUDE.md
+.claude/

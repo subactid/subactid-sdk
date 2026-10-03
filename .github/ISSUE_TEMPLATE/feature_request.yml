@@ -1,0 +1,38 @@
+name: Feature request
+description: Suggest a change or addition to the SDKs.
+title: 'feat: '
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The SDKs keep a small surface on purpose, and some things are never added: anything that
+        widens a scope, lets an agent appear as the subject, or hands out a token about to expire.
+        Describe the problem first; the shape of the fix can follow.
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      options:
+        - '@subactid/client'
+        - '@subactid/server'
+        - '@subactid/mcp'
+        - More than one, or a new one
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do, and what gets in the way today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like
+      description: The API or behaviour you have in mind, if you have one.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered

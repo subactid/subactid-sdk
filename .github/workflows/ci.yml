@@ -1,0 +1,168 @@
+name: ci
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+  # Called by release.yml, so a tag is released only once the whole of CI has passed on it.
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  # A newer push to a pull request supersedes the older run. A push to main is never cancelled:
+  # each one packs its own dev build.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      # Every Node the packages support: the floor in `engines`, and the current LTS.
+      matrix:
+        node: ['22', '24']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # The project was renamed to Subact ID. The pattern is written so this line does not match itself.
+      - name: Check the previous name has not come back
+        run: |
+          if git grep -nIiE 'o[n]be'; then
+            echo "::error::The previous project name is back in the files above. Use Subact ID, SubactId or subactid."
+            exit 1
+          fi
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format
+      - run: pnpm build
+      - run: pnpm typecheck
+      - run: pnpm test
+
+      # A build of main, packed the way a release packs it, so the SDKs can be tried in a real
+      # project before there is a version to install. It goes nowhere near a registry: the
+      # tarballs hang off this run, and any signed-in GitHub user can download them from its page.
+      # Packed once, from one Node of the matrix.
+      - name: Pack a dev build of main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.node == '22'
+        id: pack
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Never the version of a release, and never one that will be: a dev build must not be
+          # mistaken for a release, and must not satisfy a dependency on one. The sha is carried
+          # with a "g" in front so the identifier is never all digits, which semver reads as a
+          # number and rejects for a leading zero.
+          released=$(node -p "require('./packages/client/package.json').version")
+          version="${released%%-*}-dev.${GITHUB_RUN_NUMBER}.g$(git rev-parse --short HEAD)"
+          pnpm -r --filter './packages/*' exec npm pkg set version="$version"
+
+          # The licence and the NOTICE travel with a tarball handed to someone, the same as a
+          # published one.
+          for dir in packages/*/; do cp LICENSE NOTICE "$dir"; done
+
+          # One version across the three, so @subactid/mcp is packed depending on the @subactid/server
+          # packed beside it rather than on a version no registry has.
+          out="$RUNNER_TEMP/sdk-pack"
+          mkdir -p "$out"
+          pnpm -r --filter './packages/*' exec pnpm pack --pack-destination "$out"
+          ls -1 "$out"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+          # Leave the tree as it was found, so a step added after this one sees the real versions
+          # rather than the dev ones.
+          git checkout -- packages/*/package.json
+          rm -f packages/*/LICENSE packages/*/NOTICE
+
+      - name: Keep it with the run
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.node == '22'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: sdk-${{ steps.pack.outputs.version }}
+          path: ${{ runner.temp }}/sdk-pack/*.tgz
+          if-no-files-found: error
+          retention-days: 30
+          # A re-run keeps the run number, so without this the second attempt fails on a name
+          # that the first attempt already used.
+          overwrite: true
+
+  # @subactid/mcp declares the oldest MCP SDK it works with in its peer range; this proves it,
+  # rather than only the version the lockfile installs. The SDK before 1.23 depends on zod 3, so
+  # that is the zod a user of it has, and the one installed with it here.
+  mcp-sdk-floor:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Install the oldest MCP SDK the peer range accepts
+        shell: bash
+        run: |
+          set -euo pipefail
+          floor=$(node -p "/>=\\s*([0-9]+\\.[0-9]+\\.[0-9]+)/.exec(require('./packages/mcp/package.json').peerDependencies['@modelcontextprotocol/sdk'])[1]")
+          echo "testing @modelcontextprotocol/sdk@$floor"
+          pnpm --filter @subactid/mcp add -D "@modelcontextprotocol/sdk@$floor" "zod@^3.25"
+      - run: pnpm --filter @subactid/server --filter @subactid/client build
+      - run: pnpm --filter @subactid/mcp typecheck
+      - run: pnpm --filter @subactid/mcp test
+
+  # No secret in the tree, and none in the commits a pull request adds. The scanner runs from its
+  # own image, pinned in .github/tools/Dockerfile.
+  gitleaks:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # Full history, so a pull request's commits can be scanned as well as its tree.
+          fetch-depth: 0
+      - name: Scan the tree, and the commits of a pull request
+        shell: bash
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          # The image marks every directory safe for git, so the checkout's ownership is no obstacle.
+          gitleaks() {
+            docker run --rm -v "$PWD:/repo" -w /repo "$(.github/scripts/tool-image.sh gitleaks)" "$@"
+          }
+          # The tree as it is, under .gitleaks.toml's allowlist. Findings are redacted in the log.
+          gitleaks dir /repo --config /repo/.gitleaks.toml --redact --no-banner
+          # On a pull request, also every commit it adds: a secret committed and removed again is
+          # still in the history.
+          if [ -n "$BASE" ]; then
+            gitleaks git /repo --config /repo/.gitleaks.toml --redact --no-banner --log-opts="$BASE..$HEAD"
+          fi
+
+  # Every file carries licensing information and every licence named has its text (REUSE.toml,
+  # LICENSES/). The checker runs from its own image, pinned in .github/tools/Dockerfile.
+  reuse:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check the tree is REUSE compliant
+        run: docker run --rm -v "$PWD:/data:ro" "$(.github/scripts/tool-image.sh reuse)" lint

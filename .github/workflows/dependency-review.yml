@@ -1,0 +1,29 @@
+name: dependency-review
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    # Dependency review needs GitHub Advanced Security on a private repository, so skip it there.
+    # Once the repository is public this condition is always true.
+    if: ${{ !github.event.repository.private && !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Fails the pull request when it adds a dependency with a known vulnerability of any
+      # severity, or under a licence that is not on this list. The packages are Apache-2.0 and
+      # carry no runtime dependencies, so the list is the permissive licences a development
+      # dependency, or a future runtime one, may come under. A dependency under any other licence
+      # is a decision for the maintainer, made by adding it here, not by the pull request that
+      # needs it.
+      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: low
+          allow-licenses: >-
+            0BSD, Apache-2.0, BSD-2-Clause, BSD-3-Clause, BlueOak-1.0.0, CC0-1.0, ISC, MIT, MIT-0,
+            Python-2.0, Unlicense, Zlib

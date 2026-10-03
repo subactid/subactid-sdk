@@ -1,0 +1,39 @@
+name: outside-pull-requests
+# Changes come from members of the organization (CONTRIBUTING.md). A pull request from anyone else
+# is closed with a note, unread. This is the one workflow on pull_request_target: it runs with the
+# base branch's definition and never checks out or runs anything from the fork.
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions: {}
+
+jobs:
+  close:
+    # Owners, members and collaborators contribute. Dependabot is not from outside.
+    if: >-
+      !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'),
+      github.event.pull_request.author_association)
+      && github.event.pull_request.user.login != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Close it with a note
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          cat > "$RUNNER_TEMP/note.md" <<'NOTE'
+          Thank you for the interest. This repository takes changes from members of the subactid
+          organization only, so this pull request is closed without review.
+
+          `CONTRIBUTING.md` says how to report a bug or ask to join, and `SECURITY.md` how to report
+          a vulnerability privately. Please do not open an issue for a vulnerability.
+          NOTE
+          gh pr comment "$PR" --repo "$REPO" --body-file "$RUNNER_TEMP/note.md"
+          gh pr close "$PR" --repo "$REPO"
