@@ -12,9 +12,6 @@ permissions:
 
 jobs:
   analyze:
-    # Code scanning is not available on a private repository without GitHub
-    # Advanced Security, so the job is skipped until the repository is public.
-    if: ${{ !github.event.repository.private }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:

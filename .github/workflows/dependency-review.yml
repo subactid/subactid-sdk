@@ -9,9 +9,7 @@ permissions:
 
 jobs:
   review:
-    # Dependency review needs GitHub Advanced Security on a private repository, so skip it there.
-    # Once the repository is public this condition is always true.
-    if: ${{ !github.event.repository.private && !github.event.pull_request.draft }}
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
