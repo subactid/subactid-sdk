@@ -187,6 +187,16 @@ describe('AssertionSigner', () => {
     expect((error as Error).message).not.toContain('SECRETMATERIAL');
   });
 
+  it('refuses a long PEM-shaped string without stalling on it', async () => {
+    // A `BEGIN` marker repeated with no `END` made the regular expression that used to find the
+    // body rescan from every marker, quadratic in the string; at this length the old parser ran
+    // for minutes, so the test timing out is what a regression looks like.
+    const hostile = '-----BEGIN PRIVATE KEY-----a'.repeat(50_000);
+    const signer = new AssertionSigner({ agentId: 'a', kid: 'k', privateKey: hostile });
+
+    await expect(signer.sign('aud')).rejects.toBeInstanceOf(SubactIdError);
+  });
+
   it('reports a key that does not match the algorithm', async () => {
     const signer = new AssertionSigner({
       agentId: 'a',

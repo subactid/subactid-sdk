@@ -184,7 +184,8 @@ export class FakeControlPlane {
       });
     }
     const proof = /\/audit\/records\/(\d+)\/proof$/.exec(url);
-    if (proof !== null && url.startsWith(issuer)) {
+    // The issuer plus a path, so a host that merely begins with the issuer's name does not pass.
+    if (proof !== null && url.startsWith(`${issuer}/audit/records/`)) {
       // A record that does not exist, or that the sealing pass has not reached, has no proof.
       const found = ledger.proofs[proof[1] as string];
       return found === undefined ? new Response('not found', { status: 404 }) : json(found);
