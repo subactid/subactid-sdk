@@ -155,12 +155,23 @@ const rsaEncryption = '2a864886f70d010101'; // 1.2.840.113549.1.1.1
 const ecPublicKey = '2a8648ce3d0201'; // 1.2.840.10045.2.1
 const prime256v1 = '2a8648ce3d030107'; // 1.2.840.10045.3.1.7
 
+const pemBegin = '-----BEGIN PRIVATE KEY-----';
+const pemEnd = '-----END PRIVATE KEY-----';
+
 /** The DER inside a PKCS#8 PEM, or `undefined` when it is not one. */
 function pkcs8Der(pem: string): Uint8Array<ArrayBuffer> | undefined {
-  const match = /-----BEGIN PRIVATE KEY-----([\s\S]+?)-----END PRIVATE KEY-----/.exec(pem);
-  if (!match || match[1] === undefined) return undefined;
+  // The markers are found by position, not by a regular expression: a lazy match for the body
+  // between them rescans from every later `BEGIN` when there is no `END`, which is quadratic in
+  // the length of the string (CodeQL js/polynomial-redos).
+  const begin = pem.indexOf(pemBegin);
+  if (begin === -1) return undefined;
+  const bodyStart = begin + pemBegin.length;
+  const end = pem.indexOf(pemEnd, bodyStart);
+  if (end === -1) return undefined;
+  const body = pem.slice(bodyStart, end).replace(/\s+/g, '');
+  if (body === '') return undefined;
   try {
-    return base64UrlDecode(match[1].replace(/\s+/g, '').replace(/\+/g, '-').replace(/\//g, '_'));
+    return base64UrlDecode(body.replace(/\+/g, '-').replace(/\//g, '_'));
   } catch {
     return undefined;
   }
