@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { AssertionSigner } from '../src/assertion.js';
 import { base64UrlDecode, base64UrlEncode, fromUtf8 } from '../src/encoding.js';
 import { SubactIdError } from '../src/errors.js';
-import { ecPem, rsaPem } from './keys.js';
+import { ecPem, pemBegin, pemEnd, rsaPem } from './keys.js';
 
 // Property-based tests: each statement below is tried on inputs fast-check generates, and a
 // failing input is shrunk to the smallest one that still fails. They cover what this client
@@ -90,7 +90,7 @@ describe('AssertionSigner, on generated keys', () => {
     await fc.assert(
       fc.asyncProperty(fc.uint8Array({ minLength: 16, maxLength: 512 }), async (bytes) => {
         const body = Buffer.from(bytes).toString('base64');
-        const privateKey = `-----BEGIN PRIVATE KEY-----\n${body}\n-----END PRIVATE KEY-----`;
+        const privateKey = `${pemBegin}\n${body}\n${pemEnd}`;
         // Reading the algorithm off the DER is total: whatever the bytes say, the constructor returns.
         const signer = new AssertionSigner({ agentId: 'a', kid: 'k', privateKey });
 

@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { AssertionSigner } from '../src/assertion.js';
 import { base64UrlDecode, fromUtf8 } from '../src/encoding.js';
 import { SubactIdError } from '../src/errors.js';
-import { ecPem, rsaPem } from './keys.js';
+import { ecPem, pemBegin, rsaPem } from './keys.js';
 
 const now = Date.UTC(2026, 8, 11, 12, 0, 0);
 
@@ -191,7 +191,7 @@ describe('AssertionSigner', () => {
     // A `BEGIN` marker repeated with no `END` made the regular expression that used to find the
     // body rescan from every marker, quadratic in the string; at this length the old parser ran
     // for minutes, so the test timing out is what a regression looks like.
-    const hostile = '-----BEGIN PRIVATE KEY-----a'.repeat(50_000);
+    const hostile = `${pemBegin}a`.repeat(50_000);
     const signer = new AssertionSigner({ agentId: 'a', kid: 'k', privateKey: hostile });
 
     await expect(signer.sign('aud')).rejects.toBeInstanceOf(SubactIdError);
