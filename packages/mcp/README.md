@@ -12,10 +12,6 @@ policy, and logs who acted for whom.
 npm install @subactid/mcp
 ```
 
-The packages are not published to npm yet.
-[CONTRIBUTING.md](../../CONTRIBUTING.md#trying-a-build-of-main) says how to install a development
-build of `main`.
-
 `@modelcontextprotocol/sdk` is a peer dependency, `>=1.20.0 <2`. Install it beside this
 package. `@subactid/mcp` depends on `@subactid/server`. Node 22 or later.
 

@@ -13,10 +13,6 @@ at most what the human has, what the agent may use, and what the agent asked for
 npm install @subactid/client
 ```
 
-The packages are not published to npm yet.
-[CONTRIBUTING.md](../../CONTRIBUTING.md#trying-a-build-of-main) says how to install a development
-build of `main`.
-
 Node 22 or later. No runtime dependencies: the client uses WebCrypto and `fetch`.
 
 ESM only: load it with `import`. `require()` of it works from Node 22.12, where Node can require

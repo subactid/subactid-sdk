@@ -16,10 +16,6 @@ scope each route needs, and logs who acted for whom. It covers the tool-server s
 npm install @subactid/server
 ```
 
-The packages are not published to npm yet.
-[CONTRIBUTING.md](../../CONTRIBUTING.md#trying-a-build-of-main) says how to install a development
-build of `main`.
-
 Node 22 or later. No runtime dependencies: the package uses WebCrypto and `fetch`.
 
 ESM only: load it with `import`. `require()` of it works from Node 22.12, where Node can require
