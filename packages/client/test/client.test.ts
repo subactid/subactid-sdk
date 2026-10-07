@@ -28,15 +28,16 @@ import { FakeControlPlane, issuer, revocationEndpoint } from './fake-control-pla
 import { rsaPem } from './keys.js';
 
 const start = Date.UTC(2026, 8, 11, 12, 0, 0);
-const realSetTimeout = globalThis.setTimeout;
+const realSetImmediate = globalThis.setImmediate;
 
 /**
  * Lets real work finish: signing an assertion runs off the event loop, which fake timers do not
  * cover, and how long it takes depends on what else the machine is doing. So the tests wait for
- * the work itself rather than for a slice of wall clock.
+ * the work itself rather than for a slice of wall clock. setImmediate is not faked and costs the
+ * same on every platform, where a 1 ms setTimeout is rounded up to 15 ms on Windows.
  */
 async function tick(): Promise<void> {
-  await new Promise((resolve) => realSetTimeout(resolve, 1));
+  await new Promise<void>((resolve) => realSetImmediate(resolve));
 }
 
 /** Waits, in real time, until `done()` holds. Fails the test rather than hanging if it never does. */
@@ -51,18 +52,17 @@ async function until(done: () => boolean, what: string): Promise<void> {
 /**
  * Waits for whatever the last clock advance set off to land: a refresh signs an assertion with
  * real crypto, so the work takes real time that no amount of fake time covers. Ends as soon as
- * the fake control plane has been quiet for a while, so a passing test is not slow.
+ * the fake control plane has been quiet for a while, measured in wall-clock milliseconds, so a
+ * passing test is not slow.
  */
 async function settle(plane: FakeControlPlane): Promise<void> {
   let seen = plane.requests.length;
-  let quiet = 0;
-  while (quiet < 20) {
+  let quietSince = performance.now();
+  while (performance.now() - quietSince < 20) {
     await tick();
-    if (plane.requests.length === seen) {
-      quiet++;
-    } else {
+    if (plane.requests.length !== seen) {
       seen = plane.requests.length;
-      quiet = 0;
+      quietSince = performance.now();
     }
   }
 }
