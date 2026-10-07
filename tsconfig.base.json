@@ -20,6 +20,8 @@
     // them, and their signatures would otherwise hold consumers to a newer TypeScript.
     "stripInternal": true,
     "sourceMap": true,
+    // tsc emits the host's line ending by default, so a Windows build would differ from CI's.
+    "newLine": "lf",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   }
