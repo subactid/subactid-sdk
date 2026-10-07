@@ -1,5 +1,7 @@
 # Subact ID SDKs
 
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/subactid/subactid-sdk/badge)](https://scorecard.dev/viewer/?uri=github.com/subactid/subactid-sdk) [![Release](https://img.shields.io/github/v/release/subactid/subactid-sdk?sort=semver)](https://github.com/subactid/subactid-sdk/releases/latest)
+
 TypeScript libraries for [Subact ID](https://github.com/subactid/subactid), an agent identity and
 delegation control plane. Subact ID issues short-lived, scoped tokens that let an AI agent act on
 behalf of a specific human, and records every action against that human.
@@ -21,13 +23,17 @@ Each package README covers its API, options and errors.
 
 ## Install
 
-The packages are not published to npm. Each push to `main` packs a development build of the
-three packages as a CI artifact; [CONTRIBUTING.md](CONTRIBUTING.md#trying-a-build-of-main)
-says how to download and install one. To work on them from a clone, see
-[Development](#development).
+```sh
+npm install @subactid/client                          # the agent
+npm install @subactid/server                          # a tool server
+npm install @subactid/mcp @modelcontextprotocol/sdk   # an MCP server
+```
 
-All three share one version. `@subactid/mcp` needs `@modelcontextprotocol/sdk` as a peer
-dependency.
+All three share one version. To try a build of `main` before a release, see
+[CONTRIBUTING.md](CONTRIBUTING.md#trying-a-build-of-main); to work on the packages from a clone,
+see [Development](#development).
+
+`@subactid/mcp` needs `@modelcontextprotocol/sdk` as a peer dependency.
 
 ## Example
 

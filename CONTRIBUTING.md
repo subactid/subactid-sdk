@@ -55,7 +55,8 @@ change under the licence that covers the files it touches: Apache-2.0 for the SD
 
 ## Trying a build of main
 
-Every merge to `main` leaves the three packages packed on the CI run, under Artifacts, as
+The packages on npm are the latest release. To try a change merged to `main` since, use the
+build CI packs: every merge leaves the three packages packed on its CI run, under Artifacts, as
 `sdk-<version>`. They are kept for thirty days and go nowhere near a registry. Any signed-in
 GitHub user can download them from the run's page.
 
@@ -77,7 +78,7 @@ satisfies it.
 The three packages carry one version between them. Bump all three in a pull request, land it,
 then tag:
 
-    git tag -s v0.1.0 -m "v0.1.0" && git push origin v0.1.0
+    git tag -s v0.1.1 -m "v0.1.1" && git push origin v0.1.1
 
 `.github/workflows/release.yml` runs four jobs, each holding only what it needs:
 

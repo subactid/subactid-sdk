@@ -48,9 +48,9 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
 
-      # A build of main, packed the way a release packs it, so the SDKs can be tried in a real
-      # project before there is a version to install. It goes nowhere near a registry: the
-      # tarballs hang off this run, and any signed-in GitHub user can download them from its page.
+      # A build of main, packed the way a release packs it, so a change can be tried in a real
+      # project before a release carries it. It goes nowhere near a registry: the tarballs hang
+      # off this run, and any signed-in GitHub user can download them from its page.
       # Packed once, from one Node of the matrix.
       - name: Pack a dev build of main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.node == '22'
