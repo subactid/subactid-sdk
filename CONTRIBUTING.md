@@ -104,15 +104,16 @@ A prerelease tag such as `v0.2.0-rc.1` is published under the `next` dist-tag an
 `latest`.
 
 The `package-check` workflow checks the latest stable release on npm every week. `latest` on each
-of the three packages must be that release's version, the three installed together must pass
-`npm audit signatures`, and each tarball's provenance attestation must verify with
-`gh attestation verify` as signed by the release run for that tag. A failure means npm does not
-serve what the release signed, and the log names which package: a dist-tag has been moved, or a
-version has gone out that no release here signed. That is a security incident, not a flake:
-nothing in this repository touches a version after its release, so find what did before anything
-else is published. The same run scans `pnpm-lock.yaml`, the development dependencies that build
-the release, with OSV-Scanner and reports the findings to code scanning without failing anything.
-A finding there is a bump, which is Dependabot's pull request to make.
+of the three packages must be that release's version, each tarball's provenance attestation must
+verify with `gh attestation verify` as signed by the release run for that tag, and the three,
+installed with `npm ci` pinned to the hashes of the tarballs that verified, must pass
+`npm audit signatures`. A failure means npm does not serve what the release signed, and the log
+names which package: a dist-tag has been moved, or a version has gone out that no release here
+signed. That is a security incident, not a flake: nothing in this repository touches a version
+after its release, so find what did before anything else is published. The same run scans
+`pnpm-lock.yaml`, the development dependencies that build the release, with OSV-Scanner and
+reports the findings to code scanning without failing anything. A finding there is a bump, which
+is Dependabot's pull request to make.
 
 An npm version cannot be taken back and cannot be replaced, which is why the run checks before it
 builds and builds before it publishes. A run that failed part way through can be run again: the
