@@ -1,0 +1,71 @@
+name: package-check
+on:
+  # Weekly, because what goes wrong with a published package goes wrong after the release: a
+  # dist-tag is moved, a version goes out that no release signed, or a vulnerability is published
+  # against a development dependency that has not changed.
+  schedule:
+    - cron: '23 5 * * 2'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  published:
+    # Forks have nothing on npm.
+    if: github.repository == 'subactid/subactid-sdk'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Read the latest stable release
+        id: release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # The release GitHub marks as latest, which is never a draft or a prerelease. What it
+          # published is what gets checked, not whatever `latest` on npm points at.
+          if ! tag=$(gh api "repos/${GITHUB_REPOSITORY}/releases/latest" --jq .tag_name); then
+            echo "::error title=No stable release::the repository has no release marked latest, so there is nothing to check."
+            exit 1
+          fi
+          echo "version=${tag#v}" >> "$GITHUB_OUTPUT"
+          echo "the latest stable release is $tag"
+
+      # Node 24 ships the npm that verifies provenance attestations.
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+
+      # A failure here means npm no longer serves what the release signed, because a dist-tag was
+      # moved or a version went out that no release run signed, and the log names which package.
+      # That is an incident, not a flake: nothing in this repository touches a version after its
+      # release.
+      - name: Check that npm serves what the release signed
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          GH_TOKEN: ${{ github.token }}
+        run: .github/scripts/verify-published.sh "$VERSION"
+
+  # Known vulnerabilities in the development dependencies on main, which build the release. The
+  # report goes to code scanning under the osv-scanner tool, apart from CodeQL's and Scorecard's,
+  # and fails nothing: a vulnerable development dependency is a bump, which is Dependabot's pull
+  # request to make, not an incident. Dependabot keeps this pin current with the other actions.
+  dependencies:
+    if: github.repository == 'subactid/subactid-sdk'
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@a345acffa64b0eaede81a3d9aae6141214d9c8fc # v2.6.0
+    permissions:
+      contents: read
+      actions: read # the reusable workflow asks for it to upload the report
+      security-events: write # the report
+    with:
+      scan-args: |-
+        --lockfile=./pnpm-lock.yaml
+      fail-on-vuln: false
